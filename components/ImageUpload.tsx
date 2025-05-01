@@ -86,6 +86,7 @@ const ImageUpload = () => {
         await setDoc(userDocRef, {
           email: email,
           createdAt: new Date(),
+          
         });
       }
 
