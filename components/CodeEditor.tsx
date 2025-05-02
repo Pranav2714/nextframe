@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
   Sandpack,
@@ -7,6 +8,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import { DEPENDANCIES } from "@/constants/dependencies";
 import { dracula } from "@codesandbox/sandpack-themes";
+
 const CodeEditor = ({ codeResp, isReady }: any) => {
   return (
     <div>

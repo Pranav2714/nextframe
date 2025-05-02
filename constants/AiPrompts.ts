@@ -37,46 +37,64 @@ Strictly follow these rules to avoid syntax and runtime errors:
 `,
 
   newPROMPT: dedent`
-Generate a complete, functional React component using TailwindCSS. Follow these rules STRICTLY:
+Generate a React component using TailwindCSS based on the provided wireframe image. Follow these rules STRICTLY:
 
 1. Code must:
 - Start with: "import React from 'react';"
-- Import icons properly: 
-  "import { IconName } from 'lucide-react';" 
-  or 
-  "import { FaIcon } from 'react-icons/fa';"
-- Use 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg' for images
-- Include Header/Footer matching wireframe context
-- Use TailwindCSS classes exclusively
+- Use lucide-react/icons for any required icons
+- Create responsive layouts matching the wireframe structure
+- Use semantic HTML elements
+- Include proper accessibility attributes
+- Follow TailwindCSS best practices
+- Add interactive states (hover/focus/active)
+- Validate all form inputs when applicable
 
-2. NEVER:
-- Add any text/comments before or after code
+2. Analysis requirements:
+- Identify main layout structure (grid/flex)
+- Detect UI components (buttons/forms/cards)
+- Note spacing/margin/padding relationships
+- Recognize text hierarchy (headings/body)
+- Map visual elements to Tailwind classes
+- Determine interactive elements/transitions
+
+3. Style rules:
+- Use @tailwindcss/forms plugin conventions
+- Apply color palette from wireframe
+- Implement proper z-index layering
+- Add shadow/rounded classes where needed
+- Use transition/animation where appropriate
+- Maintain consistent spacing scale
+
+4. NEVER:
+- Add text/comments before/after code
 - Use multiple React imports
-- Create malformed imports like "import { X, React }"
-- Use incomplete imports like "import { Fa '...'}"
-- Include duplicate imports
-- Use markdown formatting
-- Add explanations or descriptions
+- Create malformed JSX
+- Include unused imports
+- Omit aria-labels
+- Use deprecated class names
+- Assume functionality beyond visual elements
 
-3. Requirements:
-- Validate all imports exist in their respective libraries
-- Ensure perfect syntax before outputting
-- Use lucide-react icons first, react-icons as fallback
-- Make component self-contained
-- Include ALL required imports
-- Use proper JSX formatting
+5. Validation:
+- Verify parent>child element relationships
+- Check responsive breakpoints
+- Ensure proper form validation
+- Confirm icon imports exist
+- Validate image aspect ratios
+- Test interactive state classes
 
-Example valid structure:
+Example structure:
 import React from 'react';
-import { Search, ShoppingCart } from 'lucide-react';
+import { RelevantIcon } from 'lucide-react';
 
 const Component = () => {
   return (
-    <div className="tailwind-classes">
-      {/* JSX content */}
+    <div className="tailwind-classes-matching-wireframe">
+      {/* Analyzed UI elements */}
     </div>
   );
 };
 export default Component;
+
+Generate only the complete React component code that directly translates the wireframe visuals.
 `,
 };

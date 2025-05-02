@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { db } from "@/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import SelectionDetail from "@/components/SelectionDetail";
 import CodeEditor from "@/components/CodeEditor";
 import AppHeader from "@/components/AppHeader";
 import { useAuth } from "@clerk/nextjs";
+
 const ViewCode = () => {
   const [code, setCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -109,7 +110,7 @@ const ViewCode = () => {
     };
 
     fetchAndGenerateCode();
-  }, [uid, docId, user]);
+  }, [uid, docId, user, getToken]);
 
   const regenerateCode = async () => {
     if (!record || !docId || !user) return;

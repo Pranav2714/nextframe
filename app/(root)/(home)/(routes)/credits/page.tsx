@@ -78,12 +78,14 @@ function Credits() {
 
   return (
     <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Your Credits</h2>
-      <div className="bg-card rounded-lg p-6 shadow-lg">
+      <h2 className="text-3xl text-white font-bold mb-4">Your Credits</h2>
+      <div className="bg-dark-1 rounded-lg p-6 shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="text-lg font-semibold">Available Credits</p>
-            <p className="text-4xl font-bold text-primary">
+            <p className="text-lg text-white font-semibold">
+              Available Credits
+            </p>
+            <p className="text-4xl font-bold text-gray-400">
               {loading ? <span className="text-sm">Loading...</span> : credits}
             </p>
           </div>
