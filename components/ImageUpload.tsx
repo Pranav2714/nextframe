@@ -11,12 +11,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { AImodels } from "@/constants/AImodels";
 import { db } from "@/firebase";
 import { useUser } from "@clerk/nextjs";
-import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { Loader2Icon, Upload, WandSparkles, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
+
+type UserDocument = {
+  email: string;
+  createdAt: Date;
+  credits: number;
+};
 
 const ImageUpload = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -70,7 +83,7 @@ const ImageUpload = () => {
       const data = await res.json();
       const imgUrl = data.secure_url;
       console.log("Image uploaded to Cloudinary:", imgUrl);
-      // TODO: Save `imageUrl`, `description`, `selectedModel` to your database
+      // TODO: Save `imageUrl`, `description`, `selectedModel` to db
 
       const email = user?.emailAddresses?.[0]?.emailAddress;
 
@@ -81,13 +94,22 @@ const ImageUpload = () => {
       }
 
       const userDocRef = doc(db, "users", email);
-      const userDocSnap = await getDoc(userDocRef);
+      let userDocSnap = await getDoc(userDocRef);
       if (!userDocSnap.exists()) {
         await setDoc(userDocRef, {
           email: email,
           createdAt: new Date(),
-          
+          credits: 25,
         });
+        userDocSnap = await getDoc(userDocRef);
+      }
+      const userData = userDocSnap.data() as UserDocument | undefined;
+      const currentCredits = userData?.credits || 0;
+
+      if (currentCredits <= 0) {
+        toast.error("Not enough credits!");
+        setLoading(false);
+        return;
       }
 
       const wireframesCollection = collection(userDocRef, "wireframes");
@@ -102,7 +124,10 @@ const ImageUpload = () => {
         createdBy: email,
       });
       const wireframeId = docRef.id;
-      router.push(`/view-code/${uid}?docId=${wireframeId}`);
+      await updateDoc(userDocRef, {
+        credits: userDocSnap.data()?.credits - 1,
+      });
+      router.push(`/view-code/${uid}?docId=${wireframeId}&source=imageUpload`);
     } catch (error) {
       console.error("Error uploading image or saving data", error);
       toast("Something went wrong");

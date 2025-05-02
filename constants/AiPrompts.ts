@@ -35,4 +35,48 @@ Strictly follow these rules to avoid syntax and runtime errors:
 - Only use React, TailwindCSS, 'lucide-react', and 'react-icons' libraries.
 - Provide only the full, clean React + TailwindCSS code without any additional text.
 `,
+
+  newPROMPT: dedent`
+Generate a complete, functional React component using TailwindCSS. Follow these rules STRICTLY:
+
+1. Code must:
+- Start with: "import React from 'react';"
+- Import icons properly: 
+  "import { IconName } from 'lucide-react';" 
+  or 
+  "import { FaIcon } from 'react-icons/fa';"
+- Use 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg' for images
+- Include Header/Footer matching wireframe context
+- Use TailwindCSS classes exclusively
+
+2. NEVER:
+- Add any text/comments before or after code
+- Use multiple React imports
+- Create malformed imports like "import { X, React }"
+- Use incomplete imports like "import { Fa '...'}"
+- Include duplicate imports
+- Use markdown formatting
+- Add explanations or descriptions
+
+3. Requirements:
+- Validate all imports exist in their respective libraries
+- Ensure perfect syntax before outputting
+- Use lucide-react icons first, react-icons as fallback
+- Make component self-contained
+- Include ALL required imports
+- Use proper JSX formatting
+
+Example valid structure:
+import React from 'react';
+import { Search, ShoppingCart } from 'lucide-react';
+
+const Component = () => {
+  return (
+    <div className="tailwind-classes">
+      {/* JSX content */}
+    </div>
+  );
+};
+export default Component;
+`,
 };

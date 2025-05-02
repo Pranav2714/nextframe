@@ -6,8 +6,9 @@ import { Button } from "./ui/button";
 import { Code } from "lucide-react";
 import { AImodels } from "@/constants/AImodels";
 
-const DesignCard = ({ item }: any) => {
+const DesignCard = ({ item, docId }: any) => {
   const modObj = item && AImodels.find((mod: any) => mod.name === item.model);
+
   return (
     <Card className="p-0 overflow-hidden">
       <CardHeader className="p-0">
@@ -39,8 +40,7 @@ const DesignCard = ({ item }: any) => {
           )}
           <span className="text-sm text-gray-800">{modObj?.name}</span>
         </div>
-
-        <Link href={`/view-code/${item?.uid}`}>
+        <Link href={`/view-code/${item?.uid}?docId=${docId}&source=designCard`}>
           <Button size="sm">
             <Code className="w-4 h-4 mr-2" /> View Code
           </Button>

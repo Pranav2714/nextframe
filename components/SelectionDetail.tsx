@@ -4,14 +4,21 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { RefreshCcw } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
   record: any;
   isReady: boolean;
   regenrateCode: () => void;
+  disableReg: boolean;
 }
 
-const SelectionDetail = ({ record, isReady, regenrateCode }: Props) => {
+const SelectionDetail = ({
+  record,
+  isReady,
+  regenrateCode,
+  disableReg,
+}: Props) => {
   if (!record) return null;
 
   return (
@@ -37,8 +44,14 @@ const SelectionDetail = ({ record, isReady, regenrateCode }: Props) => {
 
       <Button
         className="mt-7 w-full"
-        disabled={!isReady}
-        onClick={regenrateCode}
+        disabled={!isReady || disableReg}
+        onClick={() => {
+          try {
+            regenrateCode();
+          } catch (e) {
+            toast.error("Regeneration failed: " + (e as Error).message);
+          }
+        }}
       >
         <RefreshCcw className="mr-2" /> Regenerate Code
       </Button>

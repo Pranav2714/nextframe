@@ -3,23 +3,12 @@ import React from "react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  DollarSign,
-  DollarSignIcon,
-  Home,
-  Inbox,
-  Palette,
-  PaletteIcon,
-} from "lucide-react";
+import {  DollarSignIcon, Home, PaletteIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

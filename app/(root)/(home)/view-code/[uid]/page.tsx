@@ -11,17 +11,22 @@ import AiPrompts from "@/constants/AiPrompts";
 import SelectionDetail from "@/components/SelectionDetail";
 import CodeEditor from "@/components/CodeEditor";
 import AppHeader from "@/components/AppHeader";
-
+import { useAuth } from "@clerk/nextjs";
 const ViewCode = () => {
   const [code, setCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [record, setRecord] = useState<any>(null);
   const [isReady, setIsReady] = useState(false);
-
+  const [disableReg, setDisableReg] = useState(false);
   const { user } = useUser();
   const params = useSearchParams();
   const uid = params.get("uid");
   const docId = params.get("docId");
+  const source = params.get("source");
+  const { getToken } = useAuth();
+  useEffect(() => {
+    setDisableReg(source === "designCard");
+  }, [source]);
 
   // console.log("params uid:", uid, "params docId:", docId);
 
@@ -54,12 +59,16 @@ const ViewCode = () => {
         }
 
         // Generate Code via API
+        const token = await getToken();
         const response = await fetch("/api/ai-model", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify({
             imageUrl: data.imageUrl,
-            description: data.description + ":" + AiPrompts.PROMPT,
+            description: data.description + ":" + AiPrompts.newPROMPT,
             model: data.model,
           }),
         });
@@ -110,11 +119,33 @@ const ViewCode = () => {
 
     const email = user.emailAddresses[0].emailAddress;
     const docRef = doc(db, "users", email, "wireframes", docId);
+    const userDocRef = doc(db, "users", email);
+    const userDocSnap = await getDoc(userDocRef);
 
+    // Check if user exists and has credits
+    if (!userDocSnap.exists()) {
+      toast.error("User record not found!");
+      return;
+    }
+
+    const currentCredits = userDocSnap.data()?.credits || 0;
+    if (currentCredits <= 0) {
+      toast.error("Not enough credits to regenerate!");
+      return;
+    }
+
+    // Deduct credit first
+    await updateDoc(userDocRef, {
+      credits: currentCredits - 1,
+    });
     try {
+      const token = await getToken();
       const response = await fetch("/api/ai-model", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           imageUrl: record.imageUrl,
           description: record.description + ":" + AiPrompts.PROMPT,
@@ -156,6 +187,7 @@ const ViewCode = () => {
       setLoading(false);
     }
   };
+
   return (
     <div>
       <AppHeader hideSideBar={true} />
@@ -165,6 +197,7 @@ const ViewCode = () => {
             record={record}
             isReady={isReady}
             regenrateCode={regenerateCode}
+            disableReg={disableReg}
           />
         </div>
         <div className="col-span-4">

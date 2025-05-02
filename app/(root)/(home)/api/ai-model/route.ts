@@ -1,12 +1,22 @@
 import { AImodels } from "@/constants/AImodels";
 import OpenAI from "openai";
+import { auth } from "@clerk/nextjs/server";
 
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_AI_API_KEY,
+  defaultHeaders: {
+    "HTTP-Referer": process.env.NEXTAUTH_URL || "http://localhost:3000",
+    "X-Title": "Your App Name",
+  },
 });
 
 export async function POST(req: Request) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return new Response("Unauthorized", { status: 401 });
+  }
   const { model, imageUrl, description } = await req.json();
 
   const modObj = AImodels.find((mod) => mod.name === model);
@@ -36,11 +46,21 @@ export async function POST(req: Request) {
 
   const stream = new ReadableStream({
     async start(controller) {
-      for await (const chunk of response) {
-        const text = chunk.choices?.[0]?.delta?.content || "";
-        controller.enqueue(new TextEncoder().encode(text));
+      // for await (const chunk of response) {
+      //   const text = chunk.choices?.[0]?.delta?.content || "";
+      //   controller.enqueue(new TextEncoder().encode(text));
+      // }
+      // controller.close();
+      try {
+        for await (const chunk of response) {
+          const text = chunk.choices?.[0]?.delta?.content || "";
+          controller.enqueue(new TextEncoder().encode(text));
+        }
+      } catch (error) {
+        controller.error(error);
+      } finally {
+        controller.close();
       }
-      controller.close();
     },
   });
 

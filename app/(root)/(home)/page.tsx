@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+
 import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 
 export default function Home() {
@@ -60,18 +60,18 @@ export default function Home() {
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
           <div className="mt-5 max-w-2xl text-center mx-auto">
             <h1 className="block font-bold text-neutral-200 text-4xl md:text-5xl lg:text-6xl">
-              Build Something
+              Transform Wireframes Into
               <span className="bg-clip-text bg-gradient-to-tl from-blue-600 to-violet-600 text-transparent">
                 {" "}
-                With NextJs
+                Clean Code Instantly
               </span>
             </h1>
           </div>
 
           <div className="mt-5 max-w-3xl text-center mx-auto">
             <p className="text-lg text-neutral-400">
-              Revolutionize your content creation with our AI-powered app,
-              delivering engaging and high-quality apps in seconds.
+              Convert design mockups to production-ready React components with
+              AI-powered analysis and TailwindCSS styling
             </p>
           </div>
 
@@ -128,10 +128,10 @@ export default function Home() {
             </div>
             <div className="mt-5">
               <h3 className="group-hover:text-neutral-400 text-lg font-semibold text-neutral-200">
-                25+ templates
+                AI-Powered Analysis
               </h3>
               <p className="mt-1 text-neutral-400">
-                Responsive, and mobile-first project on the web
+                Advanced computer vision processing for accurate code generation
               </p>
               <span className="mt-2 inline-flex items-center gap-x-1.5 text-sm text-blue-500 decoration-2 group-hover:underline font-medium">
                 Learn more
@@ -178,10 +178,10 @@ export default function Home() {
             </div>
             <div className="mt-5">
               <h3 className="group-hover:text-neutral-400 text-lg font-semibold text-neutral-200">
-                Customizable
+                TailwindCSS Ready
               </h3>
               <p className="mt-1 text-neutral-400">
-                Components are easily customized and extendable
+                Generate clean, responsive components with utility-first styling
               </p>
               <span className="mt-2 inline-flex items-center gap-x-1.5 text-sm text-blue-500 decoration-2 group-hover:underline font-medium">
                 Learn more
@@ -226,10 +226,10 @@ export default function Home() {
             </div>
             <div className="mt-5">
               <h3 className="group-hover:text-neutral-400 text-lg font-semibold text-neutral-200">
-                Free to Use
+                React/Next.js Optimized
               </h3>
               <p className="mt-1 text-neutral-400">
-                Every component and plugin is well documented
+                Production-ready components for modern web applications
               </p>
               <span className="mt-2 inline-flex items-center gap-x-1.5 text-sm text-blue-500 decoration-2 group-hover:underline font-medium">
                 Learn more
@@ -274,10 +274,10 @@ export default function Home() {
             </div>
             <div className="mt-5">
               <h3 className="group-hover:text-neutral-400 text-lg font-semibold text-neutral-200">
-                24/7 Support
+                Code Validation
               </h3>
               <p className="mt-1 text-neutral-400">
-                Contact us 24 hours a day, 7 days a week
+                Automatic syntax checking and best practices enforcement
               </p>
               <span className="mt-2 inline-flex items-center gap-x-1.5 text-sm text-blue-500 decoration-2 group-hover:underline font-medium">
                 Learn more
